@@ -1,6 +1,7 @@
 package io.ab.projectboard.services;
 
 import io.ab.projectboard.domain.Project;
+import io.ab.projectboard.exceptions.ProjectIdException;
 import io.ab.projectboard.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,13 @@ public class ProjectService {
 
     public Project saveOrUpdateProject(Project project){
         //Logic
-        return projectRepository.save(project);
+        try{
+            return projectRepository.save(project);
+        }
+        catch(Exception e){
+            throw new ProjectIdException("Project ID "+ project.getProjectIdentifier().toUpperCase());
+        }
+        //return projectRepository.save(project);
     }
 
 }
